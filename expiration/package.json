@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@eftickets/common": "^1.0.9",
+    "@eftickets/common": "^1.0.10",
     "@types/amqplib": "^0.10.6",
     "@types/bull": "^4.10.0",
     "amqplib": "^0.10.5",
