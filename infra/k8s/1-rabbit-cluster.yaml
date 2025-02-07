@@ -1,0 +1,21 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbit-srv
+spec:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 0.6Gi
+    limits:
+      cpu: 3000m
+      memory: 0.6Gi
+
+  rabbitmq:
+    additionalConfig: |
+      log.console.level = debug
+      channel_max = 1700
+      default_user= guest
+      default_pass = guest
+      default_user_tags.administrator = true

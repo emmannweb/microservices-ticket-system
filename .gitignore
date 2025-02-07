@@ -1,0 +1,7 @@
+auth/node_modules
+auth/rest-client.http
+expiration/node_modules
+orders/node_modules
+tickets/node_modules
+payments/node_modules
+common

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expiration-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expiration
+  template:
+    metadata:
+      labels:
+        app: expiration
+    spec:
+      containers:
+        - name: expiration
+          image: emmann/expiration
+         # imagePullPolicy: Never
+          # resources:
+          #   limits:
+          #     cpu: "1"
+          #     memory: "300Mi"
+          #   requests:
+          #     cpu: "1"
+          #     memory: "200Mi"
+          # resources:
+          #   cpu: 200m
+          #   memory: 0.2Gi
+          # limits:
+          #   cpu: 300m
+          #   memory: 0.3Gi
+          env:
+            - name: RABBITMQ_URL
+              value: "amqp://guest:guest@rabbit-srv:5672" #define with secret in production
+            - name: REDIS_HOST
+              value: expiration-redis-srv
