@@ -1,0 +1,19 @@
+name: orders-deployment
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "orders/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: cd orders && docker build -t emmann/orders .
+      - run: docker push emmann/orders
