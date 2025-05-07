@@ -1,8 +1,8 @@
-import client, { Connection, Channel } from "amqplib";
+import client, { ChannelModel, Channel } from "amqplib";
 
 class RabbitWrapper {
   private _channel?: Channel;
-  connection!: Connection;
+  connection!: ChannelModel;
 
   get client() {
     if (!this._channel) {
@@ -20,8 +20,3 @@ class RabbitWrapper {
 }
 
 export const rabbitWrapper = new RabbitWrapper();
-
-// it('shouldnt connect to RabbitMQ service successfully with the wrong host.', async () => {
-//       const result = await rabbitmqmailer.connect('amqp://wronghost');
-//       expect(result).to.be.an.instanceof(Error);
-//     });

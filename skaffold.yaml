@@ -40,10 +40,19 @@ build:
           - src: "src/**/*.ts"
             dest: .
     - image: emmann/payments
+      #imagePullPolicy: Never # <-- here
       context: payments
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
           - src: "src/**/*.ts"
+            dest: .
+    - image: emmann/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
             dest: .

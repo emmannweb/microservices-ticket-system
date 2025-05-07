@@ -1,8 +1,8 @@
-import client, { Connection, Channel } from "amqplib";
+import client, { ChannelModel, Channel } from "amqplib";
 
 class RabbitWrapper {
   private _channel?: Channel;
-  connection!: Connection;
+  connection!: ChannelModel;
 
   get client() {
     if (!this._channel) {

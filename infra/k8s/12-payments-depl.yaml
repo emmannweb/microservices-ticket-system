@@ -15,7 +15,7 @@ spec:
       containers:
         - name: payments
           image: emmann/payments
-          imagePullPolicy: Never
+          #imagePullPolicy: Never
           # resources:
           #   limits:
           #     cpu: "1"
