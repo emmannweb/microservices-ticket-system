@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import {
-  isAuthenticated,
   validateRequest,
   BadRequestError,
   NotAuthorizedError,
@@ -20,10 +19,14 @@ const router = express.Router();
 router.post(
   "/api/payments",
   requireAuth,
-  [body("token").not().isEmpty(), body("orderId").not().isEmpty()],
+  [
+    body("orderId").not().isEmpty(),
+    body("title").not().isEmpty(),
+    body("price").not().isEmpty(),
+  ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { token, orderId } = req.body;
+    const { orderId, title, price } = req.body;
 
     const order = await Order.findById(orderId);
 
@@ -37,14 +40,29 @@ router.post(
       throw new BadRequestError("Cannot pay for an cancelled order");
     }
 
-    const charge = await stripe.charges.create({
-      currency: "usd",
-      amount: order.price * 100,
-      source: token, //tok_visa
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: title,
+            },
+            unit_amount: Number(price) * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+
+      success_url: "http://ticketslokal.com/payment/success",
+      cancel_url: "http://ticketslokal.com/payment/cancel",
     });
+
     const payment = Payment.build({
       orderId,
-      stripeId: charge.id,
+      stripeId: session.id,
     });
     await payment.save();
     new PaymentCreatedPublisher(rabbitWrapper.client).publish({
@@ -53,7 +71,7 @@ router.post(
       stripeId: payment.stripeId,
     });
 
-    res.status(201).send({ id: payment.id });
+    res.status(201).send({ url: session.url });
   }
 );
 
