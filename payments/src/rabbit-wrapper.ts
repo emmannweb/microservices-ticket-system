@@ -20,8 +20,3 @@ class RabbitWrapper {
 }
 
 export const rabbitWrapper = new RabbitWrapper();
-
-// it('shouldnt connect to RabbitMQ service successfully with the wrong host.', async () => {
-//       const result = await rabbitmqmailer.connect('amqp://wronghost');
-//       expect(result).to.be.an.instanceof(Error);
-//     });
