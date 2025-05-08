@@ -13,7 +13,7 @@ const NotFound = () => {
         >
           <Container>
             <Box sx={{ pt: 4, pb: 3 }}>
-              <h2 style={{ color: "#fafafa" }}>Page not found!!</h2>
+              <h2 style={{ color: "#fafafa" }}>Page not found!</h2>
             </Box>
           </Container>
         </Box>
